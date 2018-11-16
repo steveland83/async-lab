@@ -12,6 +12,7 @@ namespace Lab2
             //TASK: First, implement the commented out code below.
 
             var slowProcessor = new SlowProcessor();
+
             var timer = new Stopwatch();
 
             Console.WriteLine("Hello Lab 2!");
@@ -31,18 +32,19 @@ namespace Lab2
             WriteResultsToConsole(timer,
                 new[] {syncCountToANumberSlowly1, syncCountToANumberSlowly2, syncCountToANumberSlowly3});
 
-            Console.WriteLine($"Now I'm going to do that again, this time using an ASYNC method. Lets see how long that takes...");
+            Console.WriteLine(
+                $"Now I'm going to do that again, this time using an ASYNC method. Lets see how long that takes...");
 
             timer.Restart();
             //TODO: Perform the same operations as above, using the async method...
             Console.WriteLine("\n\nAaarrrghghhh! Code missing!");
-            
-            //var asyncCountToANumberSlowly1 = ?
-            //var asyncCountToANumberSlowly2 = ?
-            //var asyncCountToANumberSlowly3 = ?
 
-            //WriteResultsToConsole(timer,
-            //    new[] { asyncCountToANumberSlowly1, asyncCountToANumberSlowly2, asyncCountToANumberSlowly3 });
+            var asyncCountToANumberSlowly1 = await slowProcessor.CountToANumberSlowlyAsync(countingTarget1);
+            var asyncCountToANumberSlowly2 = await slowProcessor.CountToANumberSlowlyAsync(countingTarget2);
+            var asyncCountToANumberSlowly3 = await slowProcessor.CountToANumberSlowlyAsync(countingTarget3);
+
+            WriteResultsToConsole(timer,
+                new[] { asyncCountToANumberSlowly1, asyncCountToANumberSlowly2, asyncCountToANumberSlowly3 });
 
             Console.WriteLine("Press the ANY key to close.");
             Console.ReadKey();

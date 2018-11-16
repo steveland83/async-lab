@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using DontTouchMe;
 
@@ -34,10 +35,14 @@ namespace Lab2
             Console.WriteLine($"Now I'm going to do that again, this time using an ASYNC method. Lets see how long that takes...");
 
             timer.Restart();
-            //TODO: Optimise me! Make me run as fast as possible!
-            var asyncCountToANumberSlowly1 = await slowProcessor.CountToANumberSlowlyAsync(countingTarget1);
-            var asyncCountToANumberSlowly2 = await slowProcessor.CountToANumberSlowlyAsync(countingTarget2);
-            var asyncCountToANumberSlowly3 = await slowProcessor.CountToANumberSlowlyAsync(countingTarget3);
+            var aggregatedTaskResult = await Task.WhenAll(
+                slowProcessor.CountToANumberSlowlyAsync(countingTarget1),
+                slowProcessor.CountToANumberSlowlyAsync(countingTarget2),
+                slowProcessor.CountToANumberSlowlyAsync(countingTarget3));
+
+            var asyncCountToANumberSlowly1 = aggregatedTaskResult.GetValue(0).ToString();
+            var asyncCountToANumberSlowly2 = aggregatedTaskResult.GetValue(1).ToString();
+            var asyncCountToANumberSlowly3 = aggregatedTaskResult.GetValue(2).ToString();
 
             WriteResultsToConsole(timer,
                 new[] { asyncCountToANumberSlowly1, asyncCountToANumberSlowly2, asyncCountToANumberSlowly3 });
